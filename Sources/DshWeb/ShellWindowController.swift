@@ -31,6 +31,7 @@ final class ShellWindowController: NSWindowController {
         window?.contentView = webView
         window?.setFrameAutosaveName("DshWebMainWindow")
         finishSetup()
+        load()   // 主窗口初始化后立即加载目标 URL（否则 WKWebView 始终空白）
     }
 
     /// 内部弹窗：复用 WebKit 传入的 configuration（保留会话/数据存储），不自行导航。
