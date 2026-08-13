@@ -99,6 +99,7 @@ EOF
 # 可选：若存在图标则复制（icns）
 if [[ -f "$ROOT/assets/DshWeb.icns" ]]; then
   cp "$ROOT/assets/DshWeb.icns" "$APP/Contents/Resources/DshWeb.icns"
+  /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string DshWeb" "$APP/Contents/Info.plist" 2>/dev/null || \
   /usr/libexec/PlistBuddy -c "Set :CFBundleIconFile DshWeb" "$APP/Contents/Info.plist" 2>/dev/null || true
 fi
 
