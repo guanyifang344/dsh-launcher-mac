@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LaunchAgent 模板：开机自启 dsh 服务。
+  实际文件由 scripts/install-autostart.sh 动态生成（因为 __SCRIPT_PATH__ 依赖安装位置）。
+
+  __SCRIPT_PATH__   → App 内嵌的 start-dsh.sh 绝对路径
+  __HOME__          → 用户主目录（用于日志路径）
+
+  手工安装示例（把本文件复制为 ~/Library/LaunchAgents/com.dsh-launcher.dsh.plist，
+  替换占位符后）：
+    launchctl load ~/Library/LaunchAgents/com.dsh-launcher.dsh.plist
+  移除：
+    launchctl unload ~/Library/LaunchAgents/com.dsh-launcher.dsh.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.dsh-launcher.dsh</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__SCRIPT_PATH__</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/.dsh-web.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/.dsh-web.log</string>
+</dict>
+</plist>

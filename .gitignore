@@ -1,0 +1,21 @@
+# Swift Package Manager
+.build/
+.build-*/
+.swiftpm/
+Package.resolved
+
+# 打包产物
+dist/
+
+# 本地临时
+.tmp/
+.tmp-*/
+.cache/
+.cache-*/
+
+# macOS
+.DS_Store
+*.xcuserstate
+
+# 日志
+*.log
