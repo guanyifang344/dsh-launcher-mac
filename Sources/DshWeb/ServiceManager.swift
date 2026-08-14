@@ -51,10 +51,13 @@ enum ServiceManager {
                 return
             }
         }
-        // 兜底：按进程名找（SPM 直接运行或未设置 bundle id 时）
+        // 兜底：按进程名找（SPM 直接运行或未设置 bundle id 时）。
+        // 注意 localizedName 是显示名（如 "DeepSeek Harness"），executableURL 才是真实进程名。
         for app in NSWorkspace.shared.runningApplications
         where app.processIdentifier != selfPid
-            && (app.localizedName == selfName || app.bundleURL?.lastPathComponent == selfName) {
+            && (app.localizedName == selfName
+                || app.executableURL?.lastPathComponent == selfName
+                || app.bundleURL?.deletingPathExtension().lastPathComponent == selfName) {
             app.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
             return
         }
@@ -96,13 +99,14 @@ enum ServiceManager {
             let p = resourceURL.appendingPathComponent(name).path
             if FileManager.default.fileExists(atPath: p) { return p }
         }
-        // 2) App 同级目录（Contents/MacOS 的上两级）
+        // 2) App 同级目录（Contents/MacOS 的上三级：MacOS → Contents → .app → 父目录）
         let exe = Bundle.main.executableURL?.path
             ?? CommandLine.arguments.first
             ?? ""
-        let appDir = (exe as NSString).deletingLastPathComponent  // MacOS/
-        let bundleDir = (appDir as NSString).deletingLastPathComponent  // Contents/
-        let sibling = (bundleDir as NSString).deletingLastPathComponent // .app 同级
+        let macosDir = (exe as NSString).deletingLastPathComponent      // Contents/MacOS
+        let contentsDir = (macosDir as NSString).deletingLastPathComponent  // Contents
+        let appBundleDir = (contentsDir as NSString).deletingLastPathComponent // DshWeb.app
+        let sibling = (appBundleDir as NSString).deletingLastPathComponent   // .app 同级（父目录）
         let p2 = (sibling as NSString).appendingPathComponent(name)
         if FileManager.default.fileExists(atPath: p2) { return p2 }
         return nil

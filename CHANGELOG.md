@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-08-14
+
+### 修复
+
+- `locateScript` 的 fallback 路径少算一级（“.app 同级”实际算成了 `.app` 本身），修正为正确的父目录
+- `PortProbe` 对 `localhost`/`::1` 主机名解析失败（`inet_addr` 只接受 IP 字面量），统一映射为 `127.0.0.1`
+- 单实例兜底匹配改用 `executableURL`/`bundleURL` 判断（`localizedName` 是显示名，与进程名不一致会导致匹配失败）
+
 ## [0.1.2] - 2026-08-14
 
 ### 新增
