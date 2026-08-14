@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-08-14
+
+### 修复
+
+- 开机自启静默失效：LaunchAgent 运行时 PATH 不含 Node.js 安装目录，`start-dsh.sh` 找不到 `dsh`/`npx`；现显式扩展 PATH（覆盖 Homebrew、官方安装器、用户本地、nvm 常见位置）
+
 ## [0.1.4] - 2026-08-14
 
 ### 优化
